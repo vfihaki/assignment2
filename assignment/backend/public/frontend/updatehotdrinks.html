@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="node_modules/bulma/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>updateHotdrinks</title>
+</head>
+<body>
+        <nav class="navbar is-black" role="navigation" aria-label="main navigation">
+            <div class="column column"> </div>
+            <div class="navbar-brand">
+                <a class="navbar-item" href="Home.html">
+                <img src="Images/images/black_logo.PNG" width="180" height="500">
+                </a>
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                </a>
+            </div>
+                  
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start has-font-navbar">
+                    <a class="navbar-item" href="adminhome.html">
+                        HOME
+                    </a>
+                
+                    <a class="navbar-item" href="adminmenu.html">
+                        MENU
+                    </a>
+                    <a class="navbar-item" href="admincontact.html">
+                        CONTACT
+                        </a>
+                    <a class="navbar-item" href="adminfeedback.html">
+                        FEEDBACK
+                    </a>
+                    <a class="navbar-item" href="adminopenning&specials.html">
+                        OPENNING TIME & SPECIALS
+                    </a>
+                </div>            
+                <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons" >
+                    <a class="button is-light" href="logout.html">
+                        LOGOUT
+                    </a>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </nav>  
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>UPDATE HOTDRINKS</h1>
+                    <form>
+                        <div class="form-group">
+                            <label for="hotdrinks">TYPE OF HOTDRINKS</label>
+                            <input type="text" class="form-control" id="hotdrinks" aria-describedby="hotdrinks" placeholder="Add type of hotdrinks">
+                        </div>
+                        <div class="form-group">
+                            <label for="large">LARGE</label>
+                            <input type="text" class="form-control" id="large" placeholder="LARGE">
+                        </div>
+                        <div class="form-group">
+                            <label for="medium">MEDIUM</label>
+                            <input type="text" class="form-control" id="medium" placeholder="MEDIUM">
+                        </div>
+                        <div class="form-group">
+                            <label for="small">SMALL</label>
+                            <input type="text" class="form-control" id="small" placeholder="SMALL">
+                        </div>
+                        <a href="adminmenu.html">
+                        <button type="submit" class="btn btn-primary">UPDATE</button>
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+
+                let getID = parseInt((new URL(document.location).searchParams.get('id')))
+    
+                fetch(`http://localhost:9080/hotdrinks/showSingleHotdrinks/${getID}`)
+                    .then(resp => resp.json())
+                    .then(data => {
+                        
+    
+                    document.querySelector('#hotdrinks').value = data["MSG"][0]["HOTDRINKS"]
+                    document.querySelector('#large').value = data["MSG"][0]["LARGE"]
+                    document.querySelector('#medium').value = data["MSG"][0]["MEDIUM"]
+                    document.querySelector('#small').value = data["MSG"][0]["SMALL"]
+                    
+    
+                })
+    
+                let button = document.querySelector('button')
+                button.addEventListener('click', (e) => {
+    
+                    e.preventDefault();
+                
+                    let hotdrinks =document.querySelector('#hotdrinks').value
+                    let large =document.querySelector('#large').value
+                    let medium =document.querySelector('#medium').value
+                    let small =document.querySelector('#small').value
+    
+                    let data = {ID: getID, HOTDRINKS: hotdrinks, LARGE: large, MEDIUM: medium, SMALL: small}
+    
+                    fetch('http://localhost:9080/hotdrinks/updateHotdrinks',{
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    }).then(resp => {
+                        console.log(resp)
+                        window.location.href = "adminmenu.html";
+                    })                        
+            })
+            </script>
+</body>
+</html>

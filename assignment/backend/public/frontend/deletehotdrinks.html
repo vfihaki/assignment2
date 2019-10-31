@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="styles/mystyle.css">
+  <title>All The Cars</title>
+</head>
+<body style="padding: 10px">
+  
+  <h1> You are about to delete this thing.... </h1>
+
+  <a href="adminmenu.html" style="text-decoration: none">
+        <button type="submit" class="btn btn-primary" >CONFIRM DELETE</button>
+  </a>
+
+  <script>
+
+        fetch('http://localhost:9080/hotdrinks/deleteHotdrinks',{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(resp => {
+            console.log(resp)
+            window.location.href = "adminmenu.html";
+        })  
+  </script>
+
+</body>
+</html>
